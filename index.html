@@ -1,706 +1,419 @@
 <!DOCTYPE html>
-<html lang="es-LA"></html>
-<html>
+<html lang="es-LA">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Suplementos</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #ffffff, rgb(26, 135, 202));
-        }
-
-        nav {
-            background-color: #000000;
-            height: 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-           
-        }
-
-        nav img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.638);
-        }
-
-        nav h1 {
-
-            font-family: "Arial", sans-serif;
-            font-size: 24px;
-            width: 160px;
-            padding: 20px;
-          
-            color: white;
-            /* Transformación inclinada */
-            transform: skewX(-25deg);
-            transition: transform 0.4s ease-in-out;
-        
-            box-shadow: 3px 3px 0px rgb(26, 135, 202);
-           
-        }
-        nav h1:hover {
-            /* Restablece la inclinación a 0 grados al pasar el mouse */
-            transform: skewX(-15deg);
-            box-shadow: -3px 3px 0px rgb(255, 255, 255);
-        }
-
-        .catalog-title {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .category-title {
-            text-align: center;
-            font-size: 28px;
-            margin-top: 40px;
-            text-transform: uppercase;
-            color: #333;
-        }
-
-        .logo {
-            text-align: center; /* Centra el contenido del div */
-            margin-top: 20px; /* Espacio superior para separar del título */
-          
-          
-         
-        }
-
-        .logo img {
-            width: 100px; /* Ajusta el ancho del logotipo según tus preferencias */
-            height: auto; /* Mantiene la proporción de aspecto */
-            border-radius: 24px;
-            
-            
-        }
-        .logo img:hover{
-            border: 4px solid #0a41e66e;
-        }
-
-        .scroll-image {
-         display: none;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 80px;
-            height: 80px;
-            border-radius: 24px;
-            margin: 0;
-            z-index: 1;
-            transition: opacity 0.3s; /* Agregamos una transición para que aparezca suavemente */
-            box-shadow: 0px 0px 20px rgba(83, 79, 79, 0.638);
-        }
-
-        /* Estilo para mostrar la imagen al hacer scroll */
-        .show-image .scroll-image {
-            display: block;
-            opacity: 1; /* Establecemos la opacidad a 1 para mostrar la imagen */
-        }
-
-        /* Agregamos una regla de clase al cuerpo para mostrar la imagen al hacer scroll */
-        body.show-image {
-            padding-top: 80px; /* Añadimos espacio en la parte superior para evitar solapamientos */
-        }
-
-        /* Simula el espacio que ocupará la imagen para evitar saltos en la página */
-        .content {
-            height: 2000px;
-        }
-
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .category-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .card {
-            width: 250px;
-            height: 420px; /* Aumenté la altura de la card */
-            margin: 20px;
-            border: 1px solid #0a41e6;
-            padding: 10px;
-            text-align: center;
-            transition: transform 0.2s ease-in-out;
-            background-color: white;
-            box-shadow: 0 4px 6px rgba(1, 2, 2, 0.612);
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-          
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 12px rgba(11, 43, 171, 0.2);
-            
-        }
-
-        
-
-        .card img {
-            max-width: 100%;
-            height: auto;
-            flex: 1; /* Permite que la imagen se expanda en la card */
-        }
-
-        .card p {
-            margin-bottom: 10px; /* Espacio para el precio */
-        }
-
-        .footer {
-            background-color: #0c0909;
-            height: 35px;
-            text-align: center;
-            padding: 10px 0;
-            color: white;
-            text-align: center;
-         
-            bottom: 0;
-            width: 100%;
-
-            display: flex; /* Utiliza flexbox para centrar y alinear los párrafos */
-            justify-content: center; /* Centra horizontalmente */
-            gap: 20px; /* Espacio simétrico entre los párrafos */
-         
-        }
-
-
-        h3 {
-            margin-top: 20px;
-            font-size: 24px;
-            text-transform: uppercase;
-        }
-
-        p {
-            font-size: 18px;
-            margin-top: -9px;
-        }
-        a{
-        text-decoration: none;
-        color: black;
-        }
-
-        #aviso {
-            display: none;
-        }
-
-        
-       @media (max-width: 768px) {
-     
-        .scroll-image{
-                display: none; }
-                .show-image .scroll-image{display: none;}
-                .show-image .scroll-image{display: none;}
-
-                nav {
-            background-color: #000000;
-            height: 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            position: fixed; /* Fija el header */
-            top: 0; /* Lo coloca en la parte superior */
-            left: 0;
-            right: 0;
-            z-index: 999; /* Asegura que esté sobre otros elementos */
-        }
-
-        nav img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.638);
-        }
-
-        nav h1 {
-            font-family: "Arial", sans-serif;
-            font-size: 24px;
-            width: 160px;
-            padding: 20px;
-            color: white;
-            transform: skewX(-25deg);
-            transition: transform 0.4s ease-in-out;
-            box-shadow: 3px 3px 0px rgb(26, 135, 202);
-        }
-
-        nav h1:hover {
-            transform: skewX(-15deg);
-            box-shadow: -3px 3px 0px rgb(255, 255, 255);
-        }
-        
-
-
-        #aviso {
-                display: block;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                background-color: #333;
-                color: #fff;
-                text-align: center;
-                padding: 10px;
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-            }
-
-            #aviso a {
-                color: #fff;
-                text-decoration: underline;
-            }
-
-            #aviso button {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-        }
-                
-        
-
-
-/*sotkc 0*/
-.stock0 {
-    position: relative;
-    overflow: hidden;
-}
-
-
-.card-content {
-    position: relative;
-    z-index: 1; 
-}
-
-
-.stock0::before {
-    content: "";
-    position: absolute;
-    width: 520px;
-    height: 2px; 
-    background-color: red; 
-    top: 0;
-    left: 0;
-    transform-origin: left top;
-    transform: scaleX(0) rotate(45deg); 
-    z-index: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-
-.stock0:hover::before {
-    transform: scaleX(1) rotate(59deg); 
-    opacity: 1;  }
-
-
-
-
-
-
-
-
-
-
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav>
-        <img src="imagenes/logo-modified.png" alt="Logo">
-        <h1>Suplemen7os</h1>
-    </nav>
-
-
-
+    <header>
+        <nav>
+            <img src="imagenes/logo-modified.png" alt="Logo">
+            <h1>Suplemen7os</h1>
+        </nav>
+    </header>
+    
     <img class="scroll-image" src="imagenes/logo-modified.png" alt="Imagen al hacer scroll">
+    
+    <main>
+        <div class="catalog-title">
+            <h2>Catálogo de Suplementos</h2>
+        </div>
+        <div class="logo">
+            <img src="imagenes/logo-modified.png" alt="Logo de la empresa">
+        </div>
+        <div class="content">
+            <!-- Categoría Proteína -->
+            <div class="category-title">
+                <h3>Proteína</h3>
+            </div>
+            <div class="category-container">
+                <!-- Cards de Proteína -->
+                <div class="category-container">
+                    <div class="card">
+                        
+                        <h4>Whey Protein Star Nutrition Doypack<br> 1kg </h4>
+                        <img src="imagenes/proteina.jpg" alt="Suplemento 1">
+                        <h4> banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴-Cookies⚫</h4>
+                        <br>
+                       <p> Precio : $ 26.548</p>
+                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                        <button>Comprar</button>
+                        </a>
+                    </div>
+        
+                    <div class="card">
+                       
+                  
+                        <h4>Whey Protein 7900<br> 1kg </h4>
+                        <img src="imagenes/gentech.jpg" alt="Suplemento 1">
+                        <h4> banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴</h4>
+                        <br>
+                        <p>Precio:$ 23.140</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                        
+                        <h4>Whey Protein Star Nutrition <br> 1kg </h4>
+                        <img src="imagenes/star pote.jpg"alt="Suplemento 1">
+                        <h4> banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴-Cookies⚫</h4>
+                        <br>
+                        <p> Precio : $ 31.483</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                       
+                        <h4>Whey Protein Xxl <br>1kg </h4>
+                        <img src="imagenes/proteinaxxl.jpg" alt="Suplemento 1">
+                        <h4> banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴</h4>
+                        <br>
+                        <p>Precio:$ 15.580</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+                     
+                    <div class="card">
+                       
+                        <h4>Whey Protein Body advance <br>1kg </h4>
+                        <img src="imagenes/body6.jpg" alt="Suplemento 1">
+                        <h4> Chocolate🟤-Vainilla🟡-Frutilla🔴-Ddl🟠</h4>
+                        <br>
+                        <p>Precio: $ 15.670</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                        
+                        <h4>Whey Protein Ena<br>1kg</h4>
+                        <img src="imagenes/ena.png" alt="Suplemento 1">
+                        <h4> banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴</h4>
+                        <br>
+                        <p>Precio: $ 25.917</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                        
+                        <h4>Whey Protein Mervick <br>1kg</h4>
+                        <img src="imagenes/mervick.png"alt="Suplemento 1">
+                        <h4> banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴</h4>
+                        <br>
+                        <p>Precio:$ 26.600</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+                    
+                       <div class="card">
+                        
+                        <h4>Whey Protein Xtrenght <br> 1kg </h4>
+                        <img src="imagenes/XTENGH PROTE.jpg" alt="Suplemento 1">
+                        <h4> banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴</h4>
+                        <br>
+                        <p>Precio:$ 33.960</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+                    
+                    <div class="card">
+                        
+                        <h4> Whey Protein Hoch Sport <br>1kg </h4>
+                        <img src="imagenes/proteeina hoch.png" alt="Suplemento 1">
+                        <h4> banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴-Ddl🟠</h4>
+                        <br>
+                        <p>Precio:$ 26.540</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+                  
+        
+                    <div class="card">
+                       
+                        <h4>Whey Protein nutritio <br> 3kg</h4>
+                        <img src="imagenes/3kstar.png" alt="Suplemento 1">
+                        <h4> banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴-Cookies⚫</h4>
+                        <br>
+                        <p>Precio:$ 81.540</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+                  
+                    <div class="card">
+                        
+                        <h4>Whey Protein Body Advance <br>3kg </h4>
+                        <img src="imagenes/body6.jpg" alt="Suplemento 1">
+                        <p>Precio: $ 36.935</p>
+                        <h4> banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴-Ddl🟠</h4>
+                        <br>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+                    <div class="card">
+                        
+                        <h4> Whey Protein Hoch Sport <br>3kg</h4>
+                        <img src="imagenes/hosh.jpg"alt="Suplemento 1">
+                        <h4>banana🟡-Chocolate🟤-Vainilla🟡-Frutilla🔴-Ddl🟠</h4>
+                        <br>
+                        <p>Precio:$ 70.000</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+                    <div class="card">
+                       
+                         <h4>Caja Iron Bar <br>20/u</h4>
+                        <img src="imagenes/barritas.jpg"alt="Suplemento 1">
+                        <h4>Chocolate🟤-Vainilla🟡-Frutilla🔴-Ddl🟠-Coco🔘-Menta🟢-Cookies⚫</h4>
+                        <br>
+                        <p>Precio:$ 19.000</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+        
+                      <div class="card">
+                        
+                        <h4> Whey Protein X-Pro <br> 1kg </h4>
+                        <img src="imagenes/XPRO.jpg"alt="Suplemento 1">
+                        <h4>Chocolate🟤-Vainilla🟡</h4>
+                        <br>
+                        <p>Precio: $ 37.540</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+               
+            </div>
+
+           
+            <!-- Categoría Pre-entreno -->
+            <div class="category-title">
+                <h3>Pre-entreno</h3>
+            </div>
+            <div class="category-container">
+                <!-- Cards de Pre-entreno -->
+                <div class="category-container">
+                    <div class="card">
+                      
+                        <h4>Creatina Monohidrato 300g</h4>
+                        <img src="imagenes/crea star.png" alt="Suplemento 1">
+                        <p> Precio : $ 28.800</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+    
+                        <div class="card">
+                           
+                            <h4>Creatina Star Monohidrato Doypack 300g </h4>
+                            <img src="imagenes/doypackcreastar.jpg" alt="Suplemento 1">
+                            <p> Precio : $ 26.150</p>
+                            <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                                <button>Comprar</button>
+                                </a>
+                        </div>
+
+                    <div class="card">
+                       
+                        <h4>Creatina Star Monohidrato 1kg</h4>
+                        <img src="imagenes/1kgcreastar.jpg" alt="Suplemento 1">
+                        <p> Precio : $ 76.990</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                       
+                        <h4>Creatina Body Advance Monohidrato 150g</h4>
+                        <img src="imagenes/crea bdoy.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 15.645</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                      
+                        <h4>Creatina Ena Micronizada 300g</h4>
+                        <img src="imagenes/crea ena.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 26.207</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                     <div class="card stock0">
+                        
+                        <h4>Creatina Xtrenght Micronizada 250g </h4>
+                        <img src="imagenes/creatinna xtengh.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 27.150</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+    
+                    <div class="card">
+                        
+                        <h4>Creatina Nutremax Micronizada 200g</h4>
+                        <img src="imagenes/creatina.200.nutremax.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 14.900</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+    
+                    <div class="card">
+                        
+                        <h4>Creatina Hoch Sport Micronizada 300g</h4>
+                        <img src="imagenes/CREATINA HOCHH.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 30.930</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                  </div>
+                    
+                    <div class="card">
+                       
+                        <h4>Creatine Mervick Monohidrato 300g </h4>
+                        <img src="imagenes/creatina mervi.pmg.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 25.850</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                       
+                        <h4>Creatina XxlMonohidrato 300g</h4>
+                        <img src="imagenes/creatinaxxl.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 22.290</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+               
+            </div>
+
+
+
+            <!-- Categoría Pre-entreno -->
+            <div class="category-title">
+                <h3>Pre-entreno</h3>
+            </div>
+            <div class="category-container">
+                <!-- Cards de Pre-entreno -->
+                <div class="category-container">
+                    <div class="card">
+                        
+                        <h4>Pre War (Pre Entreno) 400G (Lemonade, fruti pnuch)</h4>
+                        <img src="imagenes/preworrk ena.jpg" alt="Suplemento 1">
+                        <p>Precio: $ 25.107</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                       
+                        <h4>Pump 3D Ripped 315G (lemonade, Strawberry Lime)</h4>
+                        <img src="imagenes/preworkstart.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 30.436</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                       
+                        <h4>Beast Blood 280G (Tutti Frutti, Uva)</h4>
+                        <img src="imagenes/preworrkbody.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 16.677</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                       
+                        <h4>pre entreno tnt dynamite 240G (blue razz, citrus sulsh, uva)</h4>
+                        <img src="imagenes/tntpre.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 18.020</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+        
+                    <div class="card">
+                       
+                        <h4>Pump V8 285G (limon, uva)</h4>
+                        <img src="imagenes/v8.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 25.800</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+                    <div class="card">
+                       
+                        <h4>Hoch sport - Flash 5D 320G</h4>
+                        <img src="imagenes/prre hoch.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 32.392</p>
+
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                        <button>Comprar</button>
+                        </a>
+                    </div>
+        
+                  
+        
+                    <div class="card ">
+                        
+                        <h4>Pre Workout Energy 907G</h4>
+                        <img src="imagenes/preworrkmervi.jpg" alt="Suplemento 1">
+                        <p>Precio:$ 30.748</p>
+                        <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
+                            <button>Comprar</button>
+                            </a>
+                    </div>
+                   
+                <!-- Otras cards similares aquí -->
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <p>© 2024 Suplemen7os. Todos los derechos reservados.</p>
+    </footer>
+    
     <script>
-        // JavaScript para agregar y quitar la clase que muestra la imagen al hacer scroll
+        // JavaScript para mostrar la imagen al hacer scroll
         window.addEventListener('scroll', function() {
-            var image = document.querySelector('.scroll-image');
             var body = document.querySelector('body');
-            if (window.scrollY > 200) { // Cambia el valor 200 según cuándo quieres que aparezca la imagen
+            if (window.scrollY > 200) {
                 body.classList.add('show-image');
             } else {
                 body.classList.remove('show-image');
             }
         });
     </script>
-
-
-
-    <div class="catalog-title">
-        <h2>Catálogo de Suplementos</h2>
-    </div>
-    <div class="logo">
-        <img src="imagenes/logo-modified.png" alt="Logo de la empresa">
-    </div>
-    <div class="content">
-        <div class="category-title">
-            <!-- Las otras cards de prote -->
-            <h3>Proteína</h3>
-        </div>
-        <div class="category-container">
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>Whey Protein 2lb DOY PACK (banana, chocolate, vainilla, frutilla)</h4>
-                <img src="imagenes/proteina.jpg" alt="Suplemento 1">
-               <p> Precio : $ 25.835</p>
-            </a>
-            </div>
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>Whey Protein 7900 1kg (chocolate, frutilla, vainilla, Banana)</h4>
-                <img src="imagenes/gentech.jpg" alt="Suplemento 1">
-                <p>Precio:$ 22.823</p>
-            </a>
-            </div>
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Platinum Whey Protein 2 Lbs (Chocolate, Banana, Cookies & Cream, Strawberry, Vainilla)</h4>
-                <img src="imagenes/star pote.jpg"alt="Suplemento 1">
-                <p> Precio : $ 27.610</p>
-            </a>
-            </div>
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>XXL Whey Protein 1 Kg(vainilla, chocolate, frutilla)</h4>
-                <img src="imagenes/proteinaxxl.jpg" alt="Suplemento 1">
-                <p>Precio:$ 13.349</p>
-            </a>
-            </div>
-             
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4> BODY ADVANCE - Whey Protein 1Kg(vainilla, chocolate, dulce de Leche)</h4>
-                <img src="imagenes/body6.jpg" alt="Suplemento 1">
-                <p>Precio: $ 15.675</p>
-            </a>
-            </div>
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4> Ena 100 % Whey 1kg(Chocolate, vainilla)</h4>
-                <img src="imagenes/ena.png" alt="Suplemento 1">
-                <p>Precio: $ 22.867</p>
-            </a>
-            </div>
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>Whey Mervick 1Kg (chocolate, vainilla, frutilla)</h4>
-                <img src="imagenes/mervick.png"alt="Suplemento 1">
-                <p>Precio:$ 25.793</p>
-            </a>
-            </div>
-            
-               <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>Advanced Whey Protein (chocolate, frutilla, banana, vainilla)</h4>
-                <img src="imagenes/XTENGH PROTE.jpg" alt="Suplemento 1">
-                <p>Precio:$ 30.525</p>
-            </a>
-            </div>
-            
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>HOCH SPORT Whey Protein 1Kg (chocolate,dulce de leche, frutos rojos, mango citric, vainilla)</h4>
-                <img src="imagenes/proteeina hoch.png" alt="Suplemento 1">
-                <p>Precio:$ 25.537</p>
-            </a>
-            </div>
-          
-
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>XXL Whey Protein 3Kg(vainilla, chocolate, frutilla)</h4>
-                <img src="imagenes/proteinaxxl3KG.jpg" alt="Suplemento 1">
-                <p>Precio:$ 33.945</p>
-            </a>
-            </div>
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>proteinna star nutritio 3kg (chocolate, Vainilla, Strawberry, Cookies & Cream)</h4>
-                <img src="imagenes/3kstar.png" alt="Suplemento 1">
-                <p>Precio:$ 77.500</p>
-            </a>
-            </div>
-          
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>BODY ADVANCE - Whey Protein 3Kg(chocolate, frutilla, vainilla, dulce de leche)</h4>
-                <img src="imagenes/body6.jpg" alt="Suplemento 1">
-                <p>Precio: $ 36.935</p>
-            </a>
-            </div>
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>HOCH SPORT Whey Protein 3Kg(chocolate, frutos rojos, mango citric, vainilla)</h4>
-                <img src="imagenes/hosh.jpg"alt="Suplemento 1">
-                <p>Precio:$ 66.473</p>
-                
-            </a>
-            </div>
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>CAJA Iron Bar(20u X 46g)(chocolate, frutilla, limon, Banana)</h4>
-                <img src="imagenes/barritas.jpg"alt="Suplemento 1">
-                <p>Precio:$ 18.722</p>
-            </a>
-            </div>
-
-
-              <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Whey X-Pro 1 Kg (Vainilla, Ice Cream)</h4>
-                <img src="imagenes/XPRO.jpg"alt="Suplemento 1">
-                <p>Precio: $ 37.101</p>
-            </a>
-            </div>
-
-            
-          
-            <!-- Las otras cards de creatina -->
-        </div>
-        <div class="category-title">
-            <h3>Creatina</h3>
-        </div>
-
-         
-        
-            <div class="category-container">
-                <div class="card">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Creatina Monohidrato 300G</h4>
-                    <img src="imagenes/crea star.png" alt="Suplemento 1">
-                    <p> Precio : $ 27.970</p>
-                </a>
-                </div>
-
-                  <div class="category-container">
-                <div class="card">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Creatina Monohidrato 1kg</h4>
-                    <img src="imagenes/1kgcreastar.jpg" alt="Suplemento 1">
-                    <p> Precio : $ 73.800</p>
-                </a>
-                </div>
-    
-                <div class="card">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Creatina Monohidrato 150g - BODY ADVANCE</h4>
-                    <img src="imagenes/crea bdoy.jpg" alt="Suplemento 1">
-                    <p>Precio:$ 14.520</p>
-                </a>
-                </div>
-    
-                <div class="card">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Creatina Micronizada 300G (fruti pnuch, sin sabor)</h4>
-                    <img src="imagenes/crea ena.jpg" alt="Suplemento 1">
-                    <p>Precio:$ 31.101</p>
-                </a>
-                </div>
-    
-                 <div class="card stock0">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Creatina 250G </h4>
-                    <img src="imagenes/creatinna xtengh.jpg" alt="Suplemento 1">
-                    <p>Precio:$ 27.150</p>
-                </a>
-                </div>
-
-                <div class="card">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Creatina Micronizada 200G Nutremax</h4>
-                    <img src="imagenes/creatina.200.nutremax.jpg" alt="Suplemento 1">
-                    <p>Precio:$ 18.861</p>
-                </a>
-                </div>
-
-                <div class="card">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Creatina Hoch Sport 300g</h4>
-                    <img src="imagenes/CREATINA HOCHH.jpg" alt="Suplemento 1">
-                    <p>Precio:$ 29.252</p>
-               </a>
-              </div>
-                
-                <div class="card">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Creatine 300G Mervick</h4>
-                    <img src="imagenes/creatina mervi.pmg.jpg" alt="Suplemento 1">
-                    <p>Precio:$ 27.660</p>
-                </a>
-                </div>
-    
-                <div class="card">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Creatina XXL x 300g DOYPACK</h4>
-                    <img src="imagenes/creatinaxxl.jpg" alt="Suplemento 1">
-                    <p>Precio:$ 20.000</p>
-                </a>
-                </div>
-
-                       <!--<div class="card">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>GENTECH Creatina Monohidrato x 500g DOYPACK</h4>
-                    <img src="imagenes/gentech 500g.jpg" alt="Suplemento 1">
-                    <p>Precio: $ 60.200</p>
-                </a>
-                </div>-->
-
-                  <!--<div class="card stock0">
-                    <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                    <h4>Creatina Creapure x 150g</h4>
-                    <img src="imagenes/crea150star.png" alt="Suplemento 1">
-                    <p>Precio: $ 26.668</p>
-                </a>
-                </div>-->
-
-
-            </div>
-
-            
-
-              <!--   <div class="card">
-                    <a href="URL_DEL_SITIO_AL_QUE_DESEA_REDIRECCIONAR" target="_blank" rel="noopener noreferrer">
-                    <h4>proteinna star nutritio 2lb (chocolate)</h4>
-                    <img src="imagenes/crea bdoy.jpg" alt="Suplemento 1">
-                    <p>Precio: $12.000</p>
-                </a>
-                </div> -->
-
-          
-            <!-- Las otras cards de prework -->
-        </div>
-        <div class="category-title">
-            <h3>Pre-entreno</h3>
-        </div>
-        <div class="category-container">
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>Pre War (Pre Entreno) 400G (Lemonade, fruti pnuch)</h4>
-                <img src="imagenes/preworrk ena.jpg" alt="Suplemento 1">
-                <p>Precio: $ 25.107</p>
-            </a>
-            </div>
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>Pump 3D Ripped 315G (lemonade, Strawberry Lime)</h4>
-                <img src="imagenes/preworkstart.jpg" alt="Suplemento 1">
-                <p>Precio:$ 27.742</p>
-            </a>
-            </div>
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>Beast Blood 280G (Tutti Frutti, Uva)</h4>
-                <img src="imagenes/preworrkbody.jpg" alt="Suplemento 1">
-                <p>Precio:$ 16.677</p>
-            </a>
-            </div>
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>pre entreno tnt dynamite 240G (blue razz, citrus sulsh, uva)</h4>
-                <img src="imagenes/tntpre.jpg" alt="Suplemento 1">
-                <p>Precio:$ 18.020</p>
-            </a>
-            </div>
-
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>Pump V8 285G (limon, uva)</h4>
-                <img src="imagenes/v8.jpg" alt="Suplemento 1">
-                <p>Precio:$ 23.185</p>
-            </a>
-            </div>
-            <div class="card">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>Hoch sport - Flash 5D 320G</h4>
-                <img src="imagenes/prre hoch.jpg" alt="Suplemento 1">
-                <p>Precio:$ 32.392</p>
-            </a>
-            </div>
-
-          
-
-            <div class="card ">
-                <a href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-                <h4>Pre Workout Energy 907G</h4>
-                <img src="imagenes/preworrkmervi.jpg" alt="Suplemento 1">
-                <p>Precio:$ 30.748</p>
-            </a>
-            </div>
-           
-        
- 
-            
-           
-            <!-- fother -->
-        </div>
-    </div>
-    <a class="contacto" href="https://wa.link/0m25jh" target="_blank" rel="noopener noreferrer">
-    <div class="footer">
-        <input type="button" style="background-color: #ffffff; color: #ad0101; border-radius: 5px; margin-top: 2px; height: 24px;">Contactanos aqui: Santiago </input>
-           
-       
-
-       
-    </div> </a>
-    <a class="contacto" href="https://wa.link/75sfh6" target="_blank" rel="noopener noreferrer">
-        <div class="footer">
-            <input type="button" style="background-color: #ffffff; color: #ad0101; border-radius: 5px; margin-top: 2px; height: 24px;">Contactanos aqui: Nahuel </input>
-           
-    
-           
-        </div> </a>
-
-
-        <div id="aviso">
-            <p>Manten precionado el producto para saber si esta disponible. <a href="enlace.html">...</a></p>
-            <button onclick="aceptarAviso()">Entendido</button>
-        </div>
-        
-        <script>
-            // JavaScript para mostrar/ocultar el aviso
-            function aceptarAviso() {
-                document.getElementById('aviso').style.display = 'none';
-                // Aquí puedes agregar lógica adicional al aceptar el aviso
-            }
-        
-            // Mostrar el aviso al cargar la página (puedes ajustar según tus necesidades)
-            window.onload = function () {
-                // Verificar el ancho de la pantalla y mostrar el aviso solo en pantallas pequeñas
-                if (window.innerWidth <= 600) {
-                    document.getElementById('aviso').style.display = 'block';
-                }
-            };
-        </script>
 </body>
 </html>
