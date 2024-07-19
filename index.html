@@ -8,22 +8,35 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <img src="imagenes/logo-modified.png" alt="Logo">
-            <h1>Suplemen7os</h1>
-        </nav>
-    </header>
-    
+     <nav>
+        <img src="imagenes/logo-modified.png" alt="Logo">
+        <h1>Suplemen7os</h1>
+    </nav>
+
+
+
     <img class="scroll-image" src="imagenes/logo-modified.png" alt="Imagen al hacer scroll">
-    
-    <main>
-        <div class="catalog-title">
-            <h2>Catálogo de Suplementos</h2>
-        </div>
-        <div class="logo">
-            <img src="imagenes/logo-modified.png" alt="Logo de la empresa">
-        </div>
+    <script>
+        // JavaScript para agregar y quitar la clase que muestra la imagen al hacer scroll
+        window.addEventListener('scroll', function() {
+            var image = document.querySelector('.scroll-image');
+            var body = document.querySelector('body');
+            if (window.scrollY > 200) { // Cambia el valor 200 según cuándo quieres que aparezca la imagen
+                body.classList.add('show-image');
+            } else {
+                body.classList.remove('show-image');
+            }
+        });
+    </script>
+
+
+
+    <div class="catalog-title">
+        <h2>Catálogo de Suplementos</h2>
+    </div>
+    <div class="logo">
+        <img src="imagenes/logo-modified.png" alt="Logo de la empresa">
+    </div>
         <div class="content">
             <!-- Categoría Proteína -->
             <div class="category-title">
@@ -404,16 +417,20 @@
         <p>© 2024 Suplemen7os. Todos los derechos reservados.</p>
     </footer>
     
-    <script>
-        // JavaScript para mostrar la imagen al hacer scroll
-        window.addEventListener('scroll', function() {
-            var body = document.querySelector('body');
-            if (window.scrollY > 200) {
-                body.classList.add('show-image');
-            } else {
-                body.classList.remove('show-image');
+   <script>
+            // JavaScript para mostrar/ocultar el aviso
+            function aceptarAviso() {
+                document.getElementById('aviso').style.display = 'none';
+                // Aquí puedes agregar lógica adicional al aceptar el aviso
             }
-        });
-    </script>
+        
+            // Mostrar el aviso al cargar la página (puedes ajustar según tus necesidades)
+            window.onload = function () {
+                // Verificar el ancho de la pantalla y mostrar el aviso solo en pantallas pequeñas
+                if (window.innerWidth <= 600) {
+                    document.getElementById('aviso').style.display = 'block';
+                }
+            };
+        </script>
 </body>
 </html>
