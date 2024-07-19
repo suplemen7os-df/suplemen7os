@@ -162,7 +162,17 @@ body.show-image {
     background-color: #e64a19;
 }
 
-
+.footer {
+    background-color: #0c0909;
+    height: 35px;
+    text-align: center;
+    padding: 10px 0;
+    color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
 
 h3 {
     margin-top: 20px;
@@ -289,14 +299,4 @@ a {
                 cursor: pointer;
             }
         }
-.footer {
-    background-color: #0c0909;
-    height: 35px;
-    text-align: center;
-    padding: 10px 0;
-    color: white;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
+
