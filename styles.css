@@ -194,6 +194,38 @@ a {
     display: none;
 }
 
+/*sotkc 0*/
+.stock0 {
+    position: relative;
+    overflow: hidden;
+}
+
+
+.card-content {
+    position: relative;
+    z-index: 1; 
+}
+
+
+.stock0::before {
+    content: "";
+    position: absolute;
+    width: 520px;
+    height: 2px; 
+    background-color: red; 
+    top: 0;
+    left: 0;
+    transform-origin: left top;
+    transform: scaleX(0) rotate(45deg); 
+    z-index: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+
+.stock0:hover::before {
+    transform: scaleX(1) rotate(59deg); 
+    opacity: 1;  }
+
   @media (max-width: 768px) {
      
         .scroll-image{
